@@ -8,6 +8,7 @@ npm config set prefix ~/.npm-packages
 echo "export PATH=$HOME/.npm-packages/bin:$PATH" >> .bashrc
 source ~/.bashrc
 
-bash /vagrant/test-scripts/test-dry-test.sh
+bash /vagrant/test-scripts/tux.sh
+# bash /vagrant/test-scripts/dry-test.sh
 
 

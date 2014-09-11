@@ -1,5 +1,7 @@
-sudo yum -y update 
-sudo yum -y install git
+# sudo yum -y update 
+# sudo yum -y install git
+
+sudo yum -y install man
 
 curl https://raw.githubusercontent.com/creationix/nvm/v0.15.0/install.sh | bash
 source ~/.bash_profile
