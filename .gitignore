@@ -1,3 +1,4 @@
 *.tjs.*.cache
 .vagrant
 scripts/user-test-script.sh
+node_modules

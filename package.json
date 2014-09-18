@@ -1,7 +1,7 @@
 {
     "name": "dry-test-vm",
     "description": "Dry Test Virtual Machine",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "author": {
         "name": "Kendrick Taylor",
         "email": "kendrick@circuitsix.com"
