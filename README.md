@@ -15,7 +15,9 @@ then install the binary:
 run ```dry-test-vm <path to test script>```
 
 It will take a while the first time, it'll be faster after the first run.
-It will leave the vm running. Run ```dry-test-vm halt``` to stop it.
+It will leave the vm running. 
+
+Run ```dry-test-vm halt``` to stop it.
 
 Your test script is a shell script. here is a really simple example I use to test node-tux.
     
