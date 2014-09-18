@@ -6,7 +6,7 @@ If you do install something else -- don't -- make sure to remove it cleanly at t
 
 To run:
 
-install vagrant (with virtual box)
+Install [vagrant](https://docs.vagrantup.com/v2/getting-started/), and virtual box (follow the instructions on the vagrant page).
 
 then install the binary:
 
@@ -14,8 +14,9 @@ then install the binary:
 
 run ```dry-test-vm <path to test script>```
 
-It will take a while the first time, it'll be faster after the first run.
-It will leave the vm running. 
+It will take a while the first time, it has to provision.
+It will be faster after the first run.
+It will leave the VM running. 
 
 Run ```dry-test-vm halt``` to stop it.
 
@@ -28,6 +29,8 @@ Your test script is a shell script. here is a really simple example I use to tes
 That's it. If this was in a shell script in my project directory called "test-tux.sh", I'd run:
 
 ```dry-test-vm ./test-tux.sh```
+
+You can only run one of these tests at a time, because you're using the same virtual machine. Don't try to run two at once.
 
 That's it. Enjoy.
 
