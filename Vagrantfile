@@ -13,12 +13,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "chef/centos-6.5"
   # config.vm.network "forwarded_port", guest: 8000, host: 8000
     
-  config.vm.provision "shell", path: "vagrant-provision.sh", privileged: false
+  config.vm.provision "shell", path: "scripts/vagrant-provision.sh", privileged: false
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.33.12"
-  
+  config.vm.network "private_network", type: "dhcp"
+ 
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  config.vm.network "public_network"
+ 
   # fixes mtime issues
   config.vm.synced_folder ".", "/vagrant", type: "nfs"
  
@@ -35,11 +40,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false

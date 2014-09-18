@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+
+var _ = require('dry-underscore');
+
+function run(){
+
+    var root = _.path.normalize(_.path.join(__dirname, ".."));
+    var userRoot = _.path.cwd();
+    
+    var args = process.argv;
+
+    args.shift(); // remove node
+    args.shift(); // remove script name
+
+    var script = args.shift();
+
+    if(!script){ 
+        // _.stderr("fatal: You must pass the path of a script to be run on the vm.");
+        _.stderr("usage: dry-test-vm <halt | path to script>");
+        return;
+    }
+
+    if(script === "halt"){
+        process.chdir(root);
+        return _.shell("vagrant halt");
+    }
+    
+    script = _.path.resolve(script);
+
+    process.chdir(root);
+
+    var code = null;
+    await{ _.shell("vagrant up", defer(code)); }
+
+    if(code){ return("vagrant exited with an error code: ", code, ". We're halting the test."); }
+
+    await{ _.shell("rm ./scripts/user-test-script.sh", defer(code)); }
+
+    await{ _.shell("cp " + script + " ./scripts/user-test-script.sh", defer(code)); }
+
+    if(code){ return("copy user script exited with an error code: ", code, ". We're halting the test."); }
+
+    // We call bash explicitly and don't chmod +x test-start.sh so you can't blow away your own .npm directories.
+    // I learned this one the hard way.
+    await{ _.shell('vagrant ssh -c "bash /vagrant/scripts/test-start.sh"', defer(code)); }
+
+}
+
+exports.run = run;
+

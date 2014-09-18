@@ -1,0 +1,26 @@
+{
+    "name": "dry-test-vm",
+    "description": "Dry Test Virtual Machine",
+    "version": "0.0.1",
+    "author": {
+        "name": "Kendrick Taylor",
+        "email": "kendrick@circuitsix.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/dryjs/dry-test-vm.git"
+    },
+   "directories": {
+        "bin": "./bin"
+    },
+    "bin" : { "dry-test-vm" : "./bin/dry-test-vm" },
+    "engines": {
+        "node": "0.4 || 0.5 || 0.6 || 0.7 || 0.8 || 0.10",
+        "npm": "1"
+    },
+    "dependencies": {
+          "tamejs" : "0.4.13"
+        , "dry-underscore": "0.6.2"
+    }
+}
+

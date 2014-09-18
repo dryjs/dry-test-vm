@@ -1,1 +1,3 @@
+*.tjs.*.cache
 .vagrant
+scripts/user-test-script.sh

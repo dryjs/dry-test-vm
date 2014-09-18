@@ -1,3 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-vagrant ssh -c "bash /vagrant/test-scripts/test-start.sh"
+var _ = require('dry-underscore');
+
+if(process.argv[2] === "install"){
+    _.shell("dry-test-vm ./tests/install.sh");
+}else{
+    _.shell("dry-test");
+}
+    
