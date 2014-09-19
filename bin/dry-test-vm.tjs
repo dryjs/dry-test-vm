@@ -2,6 +2,17 @@
 
 var _ = require('dry-underscore');
 
+function usage(){ return _.stderr("usage: dry-test-vm <halt | path to script> [--export <export path>]"); }
+
+function catcher(err){ 
+    if(err.type === "error"){
+        _.stderr(err.message);
+    }else{
+        _.stderr(err);
+    }
+    process.exit(1);
+}
+
 function run(){
 
     var root = _.path.normalize(_.path.join(__dirname, ".."));
@@ -16,20 +27,51 @@ function run(){
 
     if(!script){ 
         // _.stderr("fatal: You must pass the path of a script to be run on the vm.");
-        _.stderr("usage: dry-test-vm <halt | path to script>");
-        return;
+        return usage();
     }
 
-    if(script === "halt"){
+    var exportPath = args.shift();
+
+    if(exportPath && exportPath == "--export"){
+        exportPath = args.shift();
+        if(!exportPath){ 
+            _.stderr('fatal: you didn\'t add a pacakge argument, but you used "--export".');
+            return usage(); 
+        }
+        exportPath = _.path.resolve(exportPath);
+    }else{
+        exportPath = null;
+    }
+
+
+    var code = null;
+
+   if(script === "halt"){
         process.chdir(root);
         return _.shell("vagrant halt");
     }
     
     script = _.path.resolve(script);
 
+    // resolve all user paths before this point. 
+
     process.chdir(root);
 
-    var code = null;
+    // this would be great, but symlinks don't work on nfs, and mtimes don't work on 
+    // virtualbox shared folders. So here we are. cp -r instead of ln -s 
+    /* 
+    await{ _.fs.rm("./export", _.plumb(defer(var caught), catcher, _.error.noent)); }
+    if(exportPath){ 
+        await{ _.fs.symlink(exportPath, "./export", _.plumb(defer(), catcher)); }
+    }
+    */
+
+    await{ _.fs.rmdir("./export", _.plumb(defer(var caught), catcher, [_.error.noent])); }
+    if(exportPath){ 
+        await{ _.fs.cpdir(exportPath, "./export", defer(var err)); }
+        if(err){ return catcher(_.error("Error", "Problem copying export directory: " + exportPath, err)); }
+    }
+
     await{ _.shell("vagrant up", defer(code)); }
 
     if(code){ return("vagrant exited with an error code: ", code, ". We're halting the test."); }

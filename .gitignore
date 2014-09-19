@@ -2,3 +2,5 @@
 .vagrant
 scripts/user-test-script.sh
 node_modules
+export
+copy
