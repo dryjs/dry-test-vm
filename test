@@ -3,7 +3,9 @@
 var _ = require('dry-underscore');
 
 if(process.argv[2] === "install"){
-    _.shell("rm -rf ./copy && cp -r . ./copy && cd copy && dry-test-vm ./tests/install.sh --export . && cd ..");
+    var cwd = _.path.cwd();
+    var copyPath = "/tmp/test-dry-test-vm-" + _.uuid();
+    _.shell("cp -r . " + copyPath + " && cd " + copyPath + " && dry-test-vm ./tests/install.sh --export . && rm -rf " + copyPath + " && cd " + cwd);
 }else{
     _.shell("dry-test-vm ./tests/scripts/echo.sh --export ./tests/scripts");
 }
