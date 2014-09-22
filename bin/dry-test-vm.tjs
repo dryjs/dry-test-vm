@@ -60,13 +60,13 @@ function run(){
     // this would be great, but symlinks don't work on nfs, and mtimes don't work on 
     // virtualbox shared folders. So here we are. cp -r instead of ln -s 
     /* 
-    await{ _.fs.rm("./export", _.plumb(defer(var caught), catcher, _.error.noent)); }
+    await{ _.fs.rm("./export", _.plumb(defer(var caught), catcher, _.code.noent)); }
     if(exportPath){ 
         await{ _.fs.symlink(exportPath, "./export", _.plumb(defer(), catcher)); }
     }
     */
 
-    await{ _.fs.rmdir("./export", _.plumb(defer(var caught), catcher, [_.error.noent])); }
+    await{ _.fs.rmdir("./export", _.plumb(defer(var caught), catcher, [_.code.noent])); }
     if(exportPath){ 
         await{ _.fs.cpdir(exportPath, "./export", defer(var err)); }
         if(err){ return catcher(_.error("Error", "Problem copying export directory: " + exportPath, err)); }
